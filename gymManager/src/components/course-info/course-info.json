@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_course_info_course_infos",
+  "info": {
+    "displayName": "courseInfo",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "trainerName": {
+      "type": "string"
+    },
+    "trainerSurname": {
+      "type": "string"
+    },
+    "datetime": {
+      "type": "datetime"
+    }
+  }
+}

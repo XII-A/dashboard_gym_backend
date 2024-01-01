@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "diet_plans",
+  "info": {
+    "singularName": "diet-plan",
+    "pluralName": "diet-plans",
+    "displayName": "DietPlan",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "day": {
+      "type": "enumeration",
+      "enum": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "required": true
+    },
+    "foodName": {
+      "type": "string",
+      "required": true
+    },
+    "meal": {
+      "type": "enumeration",
+      "enum": [
+        "Breakfast",
+        "Lunch",
+        "Dinner"
+      ]
+    },
+    "hour": {
+      "type": "time",
+      "required": false
+    },
+    "carbs": {
+      "type": "integer"
+    },
+    "kcl": {
+      "type": "integer"
+    },
+    "member": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

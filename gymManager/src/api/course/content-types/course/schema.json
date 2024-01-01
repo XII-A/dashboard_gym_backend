@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "courses",
+  "info": {
+    "singularName": "course",
+    "pluralName": "courses",
+    "displayName": "Course"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "trainerName": {
+      "type": "string"
+    },
+    "trainerSurname": {
+      "type": "string"
+    },
+    "date": {
+      "type": "date"
+    },
+    "duration": {
+      "type": "integer"
+    }
+  }
+}
