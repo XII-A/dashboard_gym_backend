@@ -620,6 +620,17 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     birthday: Attribute.Date & Attribute.Required;
     weight: Attribute.Integer;
     user_id: Attribute.UID<'plugin::users-permissions.user', 'username'>;
+    profilepicUrl: Attribute.String;
+    height: Attribute.Integer;
+    gym: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToOne',
+      'api::gym.gym'
+    >;
+    stepsGoal: Attribute.BigInteger;
+    caloriesGoal: Attribute.BigInteger;
+    workoutsGoal: Attribute.BigInteger;
+    waterGoal: Attribute.BigInteger;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -777,8 +788,8 @@ export interface ApiDietPlanDietPlan extends Schema.CollectionType {
     foodName: Attribute.String & Attribute.Required;
     meal: Attribute.Enumeration<['Breakfast', 'Lunch', 'Dinner']>;
     hour: Attribute.Time;
-    carbs: Attribute.Integer;
-    kcl: Attribute.Integer;
+    carbs: Attribute.Decimal;
+    kcl: Attribute.Decimal;
     member: Attribute.Relation<
       'api::diet-plan.diet-plan',
       'oneToOne',
@@ -797,6 +808,41 @@ export interface ApiDietPlanDietPlan extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiGymGym extends Schema.CollectionType {
+  collectionName: 'gyms';
+  info: {
+    singularName: 'gym';
+    pluralName: 'gyms';
+    displayName: 'gym';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    owner_name: Attribute.String & Attribute.Required;
+    owner_surname: Attribute.String & Attribute.Required;
+    owner_email: Attribute.String & Attribute.Required;
+    count_members: Attribute.String & Attribute.Required;
+    member: Attribute.Relation<
+      'api::gym.gym',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    courses: Attribute.Relation<
+      'api::gym.gym',
+      'oneToMany',
+      'api::course.course'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::gym.gym', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::gym.gym', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -937,6 +983,7 @@ declare module '@strapi/types' {
       'api::calorie.calorie': ApiCalorieCalorie;
       'api::course.course': ApiCourseCourse;
       'api::diet-plan.diet-plan': ApiDietPlanDietPlan;
+      'api::gym.gym': ApiGymGym;
       'api::schedule.schedule': ApiScheduleSchedule;
       'api::step.step': ApiStepStep;
       'api::workout.workout': ApiWorkoutWorkout;

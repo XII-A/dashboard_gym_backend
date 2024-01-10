@@ -83,6 +83,30 @@
     "user_id": {
       "type": "uid",
       "targetField": "username"
+    },
+    "profilepicUrl": {
+      "type": "string"
+    },
+    "height": {
+      "type": "integer"
+    },
+    "gym": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gym.gym",
+      "inversedBy": "member"
+    },
+    "stepsGoal": {
+      "type": "biginteger"
+    },
+    "caloriesGoal": {
+      "type": "biginteger"
+    },
+    "workoutsGoal": {
+      "type": "biginteger"
+    },
+    "waterGoal": {
+      "type": "biginteger"
     }
   }
 }

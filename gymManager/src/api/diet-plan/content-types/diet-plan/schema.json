@@ -42,10 +42,10 @@
       "required": false
     },
     "carbs": {
-      "type": "integer"
+      "type": "decimal"
     },
     "kcl": {
-      "type": "integer"
+      "type": "decimal"
     },
     "member": {
       "type": "relation",

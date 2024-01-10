@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "gyms",
+  "info": {
+    "singularName": "gym",
+    "pluralName": "gyms",
+    "displayName": "gym"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "owner_name": {
+      "type": "string",
+      "required": true
+    },
+    "owner_surname": {
+      "type": "string",
+      "required": true
+    },
+    "owner_email": {
+      "type": "string",
+      "required": true
+    },
+    "count_members": {
+      "type": "string",
+      "required": true
+    },
+    "member": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "gym"
+    },
+    "courses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::course.course"
+    }
+  }
+}
