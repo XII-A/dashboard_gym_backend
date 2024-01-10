@@ -859,7 +859,7 @@ export interface ApiScheduleSchedule extends Schema.CollectionType {
     draftAndPublish: false;
   };
   attributes: {
-    workoutName: Attribute.String;
+    workoutName: Attribute.String & Attribute.Required;
     duration: Attribute.Integer;
     sets: Attribute.Integer;
     time: Attribute.Time;
@@ -871,8 +871,8 @@ export interface ApiScheduleSchedule extends Schema.CollectionType {
     day: Attribute.Enumeration<
       [
         'Monday',
-        'Tuesday ',
-        'Wednesday ',
+        'Tuesday',
+        'Wednesday',
         'Thursday',
         'Friday',
         'Saturday',
