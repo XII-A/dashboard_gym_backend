@@ -482,6 +482,50 @@ export interface PluginUploadFolder extends Schema.CollectionType {
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<{
+        min: 1;
+        max: 50;
+      }>;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -631,6 +675,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     caloriesGoal: Attribute.BigInteger;
     workoutsGoal: Attribute.BigInteger;
     waterGoal: Attribute.BigInteger;
+    courses: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::course.course'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -641,50 +690,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
-  info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
-  };
-  attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<{
-        min: 1;
-        max: 50;
-      }>;
-    code: Attribute.String & Attribute.Unique;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
       'oneToOne',
       'admin::user'
     > &
@@ -710,7 +715,8 @@ export interface ApiCalorieCalorie extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    dateofentry: Attribute.DateTime & Attribute.Required;
+    date: Attribute.Date & Attribute.Required;
+    isBurnedCalories: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -734,6 +740,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     singularName: 'course';
     pluralName: 'courses';
     displayName: 'Course';
+    description: '';
   };
   options: {
     draftAndPublish: false;
@@ -744,6 +751,14 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     trainerSurname: Attribute.String;
     date: Attribute.Date;
     duration: Attribute.Integer;
+    attendees: Attribute.Relation<
+      'api::course.course',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    startsAt: Attribute.Time;
+    workOutImageUrl: Attribute.Text &
+      Attribute.DefaultTo<'https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -879,8 +894,8 @@ export interface ApiScheduleSchedule extends Schema.CollectionType {
         'Sunday'
       ]
     >;
-    courseInfo: Attribute.Component<'course-info.course-info'>;
-    courseLesson: Attribute.Boolean & Attribute.DefaultTo<false>;
+    workoutImageUrl: Attribute.Text;
+    caloriesPerHour: Attribute.Float;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -916,7 +931,7 @@ export interface ApiStepStep extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
-    datetime: Attribute.DateTime & Attribute.Required;
+    date: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::step.step', 'oneToOne', 'admin::user'> &
@@ -941,12 +956,12 @@ export interface ApiWorkoutWorkout extends Schema.CollectionType {
     name: Attribute.String & Attribute.Required;
     duration: Attribute.Decimal & Attribute.Required;
     sets: Attribute.Integer;
-    datetime: Attribute.DateTime & Attribute.Required;
     member: Attribute.Relation<
       'api::workout.workout',
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    date: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -976,10 +991,10 @@ declare module '@strapi/types' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
       'api::calorie.calorie': ApiCalorieCalorie;
       'api::course.course': ApiCourseCourse;
       'api::diet-plan.diet-plan': ApiDietPlanDietPlan;

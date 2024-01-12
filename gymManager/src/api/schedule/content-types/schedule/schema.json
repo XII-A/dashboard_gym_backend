@@ -42,15 +42,11 @@
         "Sunday"
       ]
     },
-    "courseInfo": {
-      "displayName": "courseInfo",
-      "type": "component",
-      "repeatable": false,
-      "component": "course-info.course-info"
+    "workoutImageUrl": {
+      "type": "text"
     },
-    "courseLesson": {
-      "type": "boolean",
-      "default": false
+    "caloriesPerHour": {
+      "type": "float"
     }
   }
 }

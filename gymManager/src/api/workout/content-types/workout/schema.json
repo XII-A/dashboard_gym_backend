@@ -23,14 +23,14 @@
     "sets": {
       "type": "integer"
     },
-    "datetime": {
-      "type": "datetime",
-      "required": true
-    },
     "member": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
+    },
+    "date": {
+      "type": "date",
+      "required": false
     }
   }
 }

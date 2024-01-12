@@ -21,9 +21,8 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
-    "datetime": {
-      "type": "datetime",
-      "required": true
+    "date": {
+      "type": "date"
     }
   }
 }

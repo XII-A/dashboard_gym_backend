@@ -107,6 +107,12 @@
     },
     "waterGoal": {
       "type": "biginteger"
+    },
+    "courses": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::course.course",
+      "mappedBy": "attendees"
     }
   }
 }

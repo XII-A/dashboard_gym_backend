@@ -21,9 +21,13 @@
       "relation": "oneToOne",
       "target": "plugin::users-permissions.user"
     },
-    "dateofentry": {
-      "type": "datetime",
+    "date": {
+      "type": "date",
       "required": true
+    },
+    "isBurnedCalories": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
